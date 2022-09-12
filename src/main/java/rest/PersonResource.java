@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 public class PersonResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-       
     private static final PersonFacade FACADE =  PersonFacade.getPersonFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
             

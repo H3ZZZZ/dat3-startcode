@@ -2,14 +2,15 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dtos.EmployeeDTO;
 import facades.EmployeeFacade;
-import facades.PersonFacade;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 //Todo Remove or change relevant parts before ACTUAL use
 @Path("employee")
@@ -26,13 +27,51 @@ public class EmployeeResource {
         return "{\"msg\":\"Hello Frederik from employeeresource :-)\"}";
     }
 
-//    @GET
-//    @Path("/all")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response getAllPersons() {
-//        return Response.ok().entity(GSON.toJson(FACADE.getAll())).build();
-//    }
-//
+    @GET
+    @Path("/all")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllPersons() {
+        return Response.ok().entity(GSON.toJson(FACADE.getAll())).build();
+    }
+
+
+
+
+    @GET
+    @Path("/highestpaid")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getHighestSalary() {
+        try {
+            EmployeeDTO employeeDTO = FACADE.getHighestSalary();
+            return Response.ok().entity(GSON.toJson(employeeDTO)).build();
+        } catch (Exception e) {
+            return Response.noContent().build();
+        }
+    }
+    @Path("/{id}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getEmployeeById(@PathParam("id") long id) {
+        try {
+            EmployeeDTO employeeDTO = FACADE.getById(id);
+            return Response.ok().entity(GSON.toJson(employeeDTO)).build();
+        } catch (Exception e) {
+            return Response.noContent().build();
+        }
+    }
+    @GET
+    @Path("/name/{name}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getEmployeesWithSpecificName(@PathParam("name") String name) {
+            try {
+                List<EmployeeDTO> employeeDTO = FACADE.getAllEmployeesByName(name);
+                return Response.ok().entity(GSON.toJson(employeeDTO)).build();
+            } catch (Exception e) {
+                return Response.noContent().build();
+            }
+        }
+
+
     @GET
     @Produces("text/plain")
     @Path("/queryDemo")
@@ -41,12 +80,12 @@ public class EmployeeResource {
         return "{\"name\":\""+name+"\"}";
     }
 
-    @Path("/{username}")
-        @GET
-        @Produces("text/plain")
-        public String getUser(@PathParam("username") String userName){
-        return "Hello " +userName;
-    }
+//    @Path("/{username}")
+//        @GET
+//        @Produces("text/plain")
+//        public String getUser(@PathParam("username") String userName){
+//        return "Hello " +userName;
+//    }
 
 
 
