@@ -25,6 +25,30 @@ public class PersonResource {
         return "{\"msg\":\"Hello Frederik :-)\"}";
     }
 
+    @GET
+    @Path("/all")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllPersons() {
+        return Response.ok().entity(GSON.toJson(FACADE.getAll())).build();
+    }
+    @GET
+    @Produces("text/plain")
+    @Path("/queryDemo")
+    public String getText(   @QueryParam("id") int id,
+                             @QueryParam("name") String name) {
+        return "{\"name\":\""+name+"\"}";
+    }
+
+    @Path("/{username}")
+        @GET
+        @Produces("text/plain")
+        public String getUser(@PathParam("username") String userName){
+        return "Hello " +userName;
+    }
+
+
+
+
 //    @POST
 //    @Produces({MediaType.APPLICATION_JSON})
 //    @Consumes({MediaType.APPLICATION_JSON})
