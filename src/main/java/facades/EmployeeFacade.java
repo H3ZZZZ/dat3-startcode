@@ -1,5 +1,8 @@
 package facades;
 
+import entities.Employee;
+import utils.EMF_Creator;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -23,6 +26,24 @@ public class EmployeeFacade {
         return emf.createEntityManager();
     }
 
+    public Employee createEmployee(String name, String address, float salary) {
+        EntityManager em = emf.createEntityManager();
 
+        Employee employee = new Employee(name, address, salary);
+        em.getTransaction().begin();
+            em.persist(employee);
+        em.getTransaction().commit();
+        em.close();
+        return employee;
+    }
+
+    public static void main(String[] args) {
+        emf = EMF_Creator.createEntityManagerFactory();
+        EmployeeFacade ef = getEmployeeFacade(emf);
+
+
+
+
+    }
 
 }

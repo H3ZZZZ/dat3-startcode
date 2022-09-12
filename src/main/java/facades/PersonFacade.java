@@ -36,6 +36,7 @@ public class PersonFacade {
         return instance;
     }
 
+
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -73,7 +74,7 @@ public class PersonFacade {
     public static void main(String[] args) {
         emf = EMF_Creator.createEntityManagerFactory();
         PersonFacade fe = getPersonFacade(emf);
-        fe.getAll().forEach(dto->System.out.println(dto));
+ //        fe.getAll().forEach(dto->System.out.println(dto));
     }
 
 }

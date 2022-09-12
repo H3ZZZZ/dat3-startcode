@@ -22,6 +22,11 @@ public class Employee {
     public Employee() {
     }
 
+    public Employee(String name, String address, Float salary) {
+        this.name = name;
+        this.address = address;
+        this.salary = salary;
+    }
 
     public Integer getId() {
         return id;
