@@ -5,9 +5,11 @@ import entities.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 
 //import errorhandling.PersonNotFoundException;
+import errorhandling.PersonNotFoundException;
 import utils.EMF_Creator;
 
 /**
@@ -53,11 +55,11 @@ public class PersonFacade {
         }
         return new PersonDTO(personEntity);
     }
-    public PersonDTO getById(long id) { //throws PersonNotFoundException {
+    public PersonDTO getById(long id) throws PersonNotFoundException {
         EntityManager em = emf.createEntityManager();
         Person person = em.find(Person.class, id);
-//        if (person == null)
-//            throw new PersonNotFoundException("The Person entity with ID: "+id+" Was not found");
+        if (person == null)
+            throw new PersonNotFoundException("The Person entity with ID: "+id+" Was not found");
         return new PersonDTO(person);
     }
     
@@ -70,11 +72,33 @@ public class PersonFacade {
         List<Person> persons = query.getResultList();
         return PersonDTO.getDtos(persons);
     }
-    
+
+    public PersonDTO updatePerson(PersonDTO personDTO){
+        EntityManager em = getEntityManager();
+        Person personFromDb = em.find(Person.class, personDTO.getId());
+//        Person personFromDb = em.find(Person.class, id);
+        if( personFromDb == null) {
+            throw new EntityNotFoundException("No such Person with id" + personDTO.getId());
+//            throw new EntityNotFoundException("No such Person with id" + id);
+        }
+        Person personEntity = new Person(personDTO.getId(), personDTO.getName(), personDTO.getAge());
+//        Person personEntity = new Person(id, personDTO.getName(), personDTO.getAge());
+        try {
+            em.getTransaction().begin();
+            em.merge(personEntity);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new PersonDTO(personEntity);
+    }
+
     public static void main(String[] args) {
         emf = EMF_Creator.createEntityManagerFactory();
         PersonFacade fe = getPersonFacade(emf);
- //        fe.getAll().forEach(dto->System.out.println(dto));
+        //        fe.getAll().forEach(dto->System.out.println(dto));
+//        fe.updatePerson(new PersonDTO("Kristian Hartmann", 29), 2);
+        fe.updatePerson(new PersonDTO(2,"Kristian Hartmann", 29));
     }
 
 }
