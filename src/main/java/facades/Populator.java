@@ -19,7 +19,7 @@ import utils.EMF_Creator;
 public class Populator {
     public static void populate(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-//        EntityManagerFactory emf_test = EMF_Creator.createEntityManagerFactoryForTest();
+//        EntityManagerFactory emf_test = EMF_Creator.createEntityManagerFactoryForTest(); // test
         EmployeeFacade employeeFacade = EmployeeFacade.getEmployeeFacade(emf);
         employeeFacade.createEmployee(new EmployeeDTO("Frederik", "Svinget 13", 30000));
 //        employeeFacade.createEmployee(new EmployeeDTO("Kristian", "Svinget 4", 45000));
