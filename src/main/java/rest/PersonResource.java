@@ -3,10 +3,6 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.PersonDTO;
-import dtos.RenameMeDTO;
-import entities.Person;
-import errorhandling.GenericExceptionMapper;
-import errorhandling.PersonNotFoundException;
 import utils.EMF_Creator;
 import facades.PersonFacade;
 import javax.persistence.EntityManagerFactory;
@@ -16,7 +12,8 @@ import javax.ws.rs.core.Response;
 
 //Todo Remove or change relevant parts before ACTUAL use
 @Path("person")
-public class PersonResource {
+public class
+PersonResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final PersonFacade FACADE =  PersonFacade.getPersonFacade(EMF);
@@ -28,12 +25,12 @@ public class PersonResource {
         return "{\"msg\":\"Hello Frederik :-)\"}";
     }
 
-    @GET
-    @Path("/all")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllPersons() {
-        return Response.ok().entity(GSON.toJson(FACADE.getAll())).build();
-    }
+//    @GET
+//    @Path("/all")
+//    @Produces({MediaType.APPLICATION_JSON})
+//    public Response getAllPersons() {
+//        return Response.ok().entity(GSON.toJson(FACADE.getAll())).build();
+//    }
     @GET
     @Produces("text/plain")
     @Path("/queryDemo")
@@ -42,11 +39,12 @@ public class PersonResource {
         return "{\"name\":\""+name+"\"}";
     }
 
-    @Path("/username/{username}")
+    @Path("/id/{id}")
         @GET
-        @Produces("text/plain")
-        public String getUser(@PathParam("username") String userName){
-        return "Hello " +userName;
+        @Produces({MediaType.APPLICATION_JSON})
+        public Response getPerson(@PathParam("id") Integer id){
+        PersonDTO p = FACADE.getPerson(id);
+        return Response.ok().entity(GSON.toJson(p)).build();
     }
 
         @Path("/testexception")
@@ -60,36 +58,41 @@ public class PersonResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response createPerson(String jsonInput){
-//        RenameMeDTO rmdto = GSON.fromJson(input, RenameMeDTO.class);
-//        System.out.println(rmdto);
+    public Response addPerson(String jsonInput){
         PersonDTO person = GSON.fromJson(jsonInput, PersonDTO.class);
-        PersonDTO returned = FACADE.create(person);
+        PersonDTO returned = FACADE.addPerson(person);
         return Response.ok().entity(GSON.toJson(returned)).build();
     }
-
-    @Path("/{id}")
-    @PUT
+    @DELETE
+    @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-//    public Response updatePerson( String jsonInput){
-        public Response updatePerson( @PathParam("id") long id, String jsonInput){
-
-        PersonDTO personDTO = GSON.fromJson(jsonInput, PersonDTO.class);
-        personDTO.setId(id);
-        PersonDTO returned = FACADE.updatePerson(personDTO);
-//        PersonDTO returned = FACADE.updatePerson(personDTO, id);
-        return Response.ok().entity(GSON.toJson(returned)).build();
+    public Response delete(@PathParam("id") Integer id)  {
+        PersonDTO deleted = FACADE.deletePerson(id);
+        return Response.ok().entity(GSON.toJson(deleted)).build();
     }
-    @Path("/user/{id}")
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response getUserById(@PathParam("id") long id) throws PersonNotFoundException {
-        try {
-            return Response.ok().entity(GSON.toJson(FACADE.getById(id))).build();
-        } catch (PersonNotFoundException e) {
-            throw new PersonNotFoundException(e.getMessage());
-        }
 
-    }
+//    @Path("/{id}")
+//    @PUT
+//    @Produces({MediaType.APPLICATION_JSON})
+//    @Consumes({MediaType.APPLICATION_JSON})
+////    public Response updatePerson( String jsonInput){
+//        public Response updatePerson( @PathParam("id") long id, String jsonInput){
+//
+//        PersonDTO personDTO = GSON.fromJson(jsonInput, PersonDTO.class);
+//        personDTO.setId(id);
+//        PersonDTO returned = FACADE.updatePerson(personDTO);
+////        PersonDTO returned = FACADE.updatePerson(personDTO, id);
+//        return Response.ok().entity(GSON.toJson(returned)).build();
+//    }
+//    @Path("/user/{id}")
+//    @GET
+//    @Produces({MediaType.APPLICATION_JSON})
+//    public Response getUserById(@PathParam("id") long id) throws PersonNotFoundException {
+//        try {
+//            return Response.ok().entity(GSON.toJson(FACADE.getById(id))).build();
+//        } catch (PersonNotFoundException e) {
+//            throw new PersonNotFoundException(e.getMessage());
+//        }
+//
+//    }
 }

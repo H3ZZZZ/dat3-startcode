@@ -1,11 +1,24 @@
-GET http://localhost:8080/devops_starter_war_exploded/api/xxx
+
 
 ###
 POST http://localhost:8080/dat3_startcode_war_exploded/api/person/
 Content-Type: application/json
 #User-Agent: Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion
 
-{"name": "Kristian Hartmann", "age": 25}
+{"fname": "Frederik", "lname": "Hess", "phone": 13377331}
+
+###
+GET http://localhost:8080/devops_starter_war_exploded/api/person/id/2
+Accept: application/json
+
+
+
+###
+DELETE http://localhost:8080/dat3_startcode_war_exploded/api/person/1
+Content-Type: application/json
+#User-Agent: Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion
+
+
 
 ###
 PUT http://localhost:8080/dat3_startcode_war_exploded/api/person/2

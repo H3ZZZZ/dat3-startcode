@@ -1,59 +1,108 @@
 package entities;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
-@NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
-public class Person implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Table (name = "Person")
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private int age;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
+    @Size(max = 45)
+    @NotNull
+    @Column(name = "fname", nullable = false, length = 45)
+    private String fname;
 
-    public Person(Long id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
+    @Size(max = 45)
+    @NotNull
+    @Column(name = "lname", nullable = false, length = 45)
+    private String lname;
 
-    public Long getId() {
-        return id;
-    }
+    @Size(max = 45)
+    @NotNull
+    @Column(name = "phone", nullable = false, length = 45)
+    private String phone;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @NotNull
+    @Column(name = "created", nullable = false)
+    private Date created;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
+    @NotNull
+    @Column(name = "lastedited", nullable = false)
+    private Date lastedited;
 
     public Person() {
     }
+
+    public Person(String fName, String lName, String phone) {
+        this.fname = fName;
+        this.lname = lName;
+        this.phone = phone;
+    }
+
+    public Person(Integer id, String fname, String lname, String phone) {
+        this.id = id;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getLastedited() {
+        return lastedited;
+    }
+
+    public void setLastedited(Date lastedited) {
+        this.lastedited = lastedited;
+    }
+
 }
