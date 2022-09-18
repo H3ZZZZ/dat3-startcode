@@ -6,11 +6,12 @@ import java.util.List;
 
 public interface IPersonFacade {
 
-    PersonDTO addPerson(PersonDTO personDTO);
+    public PersonDTO addPerson(PersonDTO personDTO);
 
-    PersonDTO deletePerson(Integer id);
+    public PersonDTO deletePerson(Long id);
 
-    public PersonDTO getPerson(Integer id);
+    public PersonDTO getPerson(Long id);
+
     public List<PersonDTO> getAllPersons();
     public PersonDTO editPerson(PersonDTO p);
 }

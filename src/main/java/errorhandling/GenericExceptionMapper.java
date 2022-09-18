@@ -33,11 +33,11 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable>  {
         Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
         Response.StatusType type = getStatusType(ex);
         ExceptionDTO err;
-        if (ex instanceof WebApplicationException) {
-            err = new ExceptionDTO(type.getStatusCode(), ((WebApplicationException) ex).getMessage());
+        if (ex instanceof Exception) {
+            err = new ExceptionDTO(type.getStatusCode(), ((WebApplicationException) ex).getMessage(), ex.getStackTrace().toString() );
         } else {
 
-            err = new ExceptionDTO(type.getStatusCode(), type.getReasonPhrase());
+            err = new ExceptionDTO(type.getStatusCode(), type.getReasonPhrase(), type.getReasonPhrase());
         }
         return Response.status(type.getStatusCode())
                 .entity(gson.toJson(err))

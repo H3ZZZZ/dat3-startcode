@@ -18,12 +18,12 @@ import java.util.List;
  */
 public class PersonDTO {
 
-private Integer id;
+private Long id;
 private String fname;
 private String lname;
 private String phone;
-private Date created;
-private Date lastedited;
+private String created;
+private String lastedited;
 
 
     public static List<PersonDTO> getDtos(List<Person> persons) {
@@ -38,7 +38,7 @@ private Date lastedited;
     public PersonDTO(Person person) {
         if(person.getId() != null)
 
-        this.id = id;
+        this.id = person.getId();
         this.fname = person.getFname();
         this.lname = person.getLname();
         this.phone = person.getPhone();
@@ -52,11 +52,11 @@ private Date lastedited;
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -84,20 +84,29 @@ private Date lastedited;
         this.phone = phone;
     }
 
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
-    public Date getLastedited() {
+    public String getLastedited() {
         return lastedited;
     }
 
-    public void setLastedited(Date lastedited) {
+    public void setLastedited(String lastedited) {
         this.lastedited = lastedited;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonDTO{" +
+                "id=" + id +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                '}';
     }
 }
 

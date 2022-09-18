@@ -15,7 +15,7 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Size(max = 45)
     @NotNull
@@ -34,11 +34,11 @@ public class Person {
 
     @NotNull
     @Column(name = "created", nullable = false)
-    private Date created;
+    private String created;
 
     @NotNull
     @Column(name = "lastedited", nullable = false)
-    private Date lastedited;
+    private String lastedited;
 
     public Person() {
     }
@@ -49,7 +49,7 @@ public class Person {
         this.phone = phone;
     }
 
-    public Person(Integer id, String fname, String lname, String phone) {
+    public Person(Long id, String fname, String lname, String phone) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
@@ -57,11 +57,20 @@ public class Person {
     }
 
 
-    public Integer getId() {
+    public Person(Long id, String fname, String lname, String phone, String created, String lastedited) {
+        this.id = id;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+        this.created = created;
+        this.lastedited = lastedited;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -89,19 +98,19 @@ public class Person {
         this.phone = phone;
     }
 
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
-    public Date getLastedited() {
+    public String getLastedited() {
         return lastedited;
     }
 
-    public void setLastedited(Date lastedited) {
+    public void setLastedited(String lastedited) {
         this.lastedited = lastedited;
     }
 

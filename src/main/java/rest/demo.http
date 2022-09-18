@@ -1,31 +1,40 @@
 
 
 ###
-POST http://localhost:8080/dat3_startcode_war_exploded/api/person/
+POST http://localhost:8080/rest/api/person/
 Content-Type: application/json
 #User-Agent: Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion
 
-{"fname": "Frederik", "lname": "Hess", "phone": 13377331}
+{"fname": "Kirzten", "lname": "DerAldrigErPå", "phone": 1234}
 
 ###
-GET http://localhost:8080/devops_starter_war_exploded/api/person/id/2
-Accept: application/json
+GET http://localhost:8080/rest/api/person/id/8
+Content-Type: application/json
 
 
 
 ###
-DELETE http://localhost:8080/dat3_startcode_war_exploded/api/person/1
+DELETE http://localhost:8080/rest/api/person/delete/8
 Content-Type: application/json
 #User-Agent: Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion
 
+###
 
+GET http://localhost:8080/rest/api/person/all
+Content-Type: application/json
 
 ###
-PUT http://localhost:8080/dat3_startcode_war_exploded/api/person/2
+
+PUT http://localhost:8080/rest/api/person/update/9
 Content-Type: application/json
 #User-Agent: Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion
 
-{"name": "Kristian", "age": 15}
+{
+  "fname": "Lucas",
+  "lname": "DerAldrigErPå",
+  "phone": "12345"
+}
+
 
 ###
-GET http://localhost:8080/dat3_startcode_war_exploded/api/person/user/6
+

@@ -12,10 +12,12 @@ package errorhandling;
 public class ExceptionDTO {
     private int code;
     private String message;
-  
-  public ExceptionDTO(int code, String description){
+
+    private String stackTrace;
+  public ExceptionDTO(int code, String description, String stackTrace){
       this.code = code;
       this.message = description;
+      this.stackTrace = stackTrace;
   }
     
 }

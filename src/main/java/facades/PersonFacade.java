@@ -2,6 +2,7 @@ package facades;
 
 import dtos.PersonDTO;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -12,13 +13,14 @@ import javax.persistence.TypedQuery;
 //import errorhandling.PersonNotFoundException;
 import entities.Person;
 import interfaces.IPersonFacade;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  *
  * Rename Class to a relevant name Add add relevant facade methods
  */
 public class PersonFacade implements IPersonFacade {
-
+    Date date = new Date();
     private static PersonFacade instance;
     private static EntityManagerFactory emf;
     
@@ -48,8 +50,8 @@ public class PersonFacade implements IPersonFacade {
     public PersonDTO addPerson(PersonDTO personDTO) {
 
         Person personEntity = new Person(personDTO.getFname(), personDTO.getLname(), personDTO.getPhone());
-        personEntity.setLastedited(new Date());
-        personEntity.setCreated(new Date());
+        personEntity.setLastedited(date.toString());
+        personEntity.setCreated(date.toString());
 
         EntityManager em = getEntityManager();
         try {
@@ -63,7 +65,7 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO deletePerson(Integer id) {
+    public PersonDTO deletePerson(Long id) {
         EntityManager em = emf.createEntityManager();
         Person personFromDb = em.find(Person.class, id);
 
@@ -81,7 +83,7 @@ public class PersonFacade implements IPersonFacade {
 
 
     @Override
-    public PersonDTO getPerson(Integer id) {
+    public PersonDTO getPerson(Long id) {
         EntityManager em = emf.createEntityManager();
         Person person = em.find(Person.class, id);
         if (person == null)
@@ -99,15 +101,15 @@ public class PersonFacade implements IPersonFacade {
 
     @Override
     public PersonDTO editPerson(PersonDTO p) {
-        EntityManager em = getEntityManager();
+        EntityManager em = emf.createEntityManager();
         Person personFromDb = em.find(Person.class, p.getId());
 
         if( personFromDb == null) {
             throw new EntityNotFoundException("No such Person with id" + p.getId());
         }
 
-        Person personEntity = new Person((int) p.getId(), p.getFname(), p.getLname(), p.getPhone());
-        personEntity.setLastedited(new Date());
+        Person personEntity = new Person( p.getId(), p.getFname(), p.getLname(), p.getPhone(), p.getCreated(), p.getLastedited());
+        personEntity.setLastedited(date.toString());
         try {
             em.getTransaction().begin();
             em.merge(personEntity);
@@ -119,25 +121,6 @@ public class PersonFacade implements IPersonFacade {
     }
 
 
-//    public PersonDTO create(PersonDTO personDTO){
-//        Person personEntity = new Person(personDTO.getName(), personDTO.getAge());
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            em.persist(personEntity);
-//            em.getTransaction().commit();
-//        } finally {
-//            em.close();
-//        }
-//        return new PersonDTO(personEntity);
-//    }
-//    public PersonDTO getById(long id) throws PersonNotFoundException {
-//        EntityManager em = emf.createEntityManager();
-//        Person person = em.find(Person.class, id);
-//        if (person == null)
-//            throw new PersonNotFoundException("The Person entity with ID: "+id+" Was not found");
-//        return new PersonDTO(person);
-//    }
 
     //TODO Remove/Change this before use
 

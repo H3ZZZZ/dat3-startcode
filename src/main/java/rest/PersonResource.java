@@ -31,18 +31,18 @@ PersonResource {
 //    public Response getAllPersons() {
 //        return Response.ok().entity(GSON.toJson(FACADE.getAll())).build();
 //    }
-    @GET
-    @Produces("text/plain")
-    @Path("/queryDemo")
-    public String getText(   @QueryParam("id") int id,
-                             @QueryParam("name") String name) {
-        return "{\"name\":\""+name+"\"}";
-    }
+//    @GET
+//    @Produces("text/plain")
+//    @Path("/queryDemo")
+//    public String getText(   @QueryParam("id") int id,
+//                             @QueryParam("name") String name) {
+//        return "{\"name\":\""+name+"\"}";
+//    }
 
     @Path("/id/{id}")
         @GET
         @Produces({MediaType.APPLICATION_JSON})
-        public Response getPerson(@PathParam("id") Integer id){
+        public Response getPerson(@PathParam("id") Long id){
         PersonDTO p = FACADE.getPerson(id);
         return Response.ok().entity(GSON.toJson(p)).build();
     }
@@ -64,26 +64,34 @@ PersonResource {
         return Response.ok().entity(GSON.toJson(returned)).build();
     }
     @DELETE
-    @Path("{id}")
+    @Path("/delete/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response delete(@PathParam("id") Integer id)  {
+    public Response delete(@PathParam("id") Long id)  {
         PersonDTO deleted = FACADE.deletePerson(id);
         return Response.ok().entity(GSON.toJson(deleted)).build();
     }
 
-//    @Path("/{id}")
-//    @PUT
+    @Path("/update/{id}")
+    @PUT
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+        public Response updatePerson( @PathParam("id") Long id, String jsonInput){
+        PersonDTO personDTO = GSON.fromJson(jsonInput, PersonDTO.class);
+        personDTO.setId(id);
+        PersonDTO returned = FACADE.editPerson(personDTO);
+        return Response.ok().entity(GSON.toJson(returned)).build();
+    }
+
+//    @Path("/all")
+//    @GET
 //    @Produces({MediaType.APPLICATION_JSON})
 //    @Consumes({MediaType.APPLICATION_JSON})
-////    public Response updatePerson( String jsonInput){
-//        public Response updatePerson( @PathParam("id") long id, String jsonInput){
+//    public Response getAll(String jsonInput) {
 //
-//        PersonDTO personDTO = GSON.fromJson(jsonInput, PersonDTO.class);
-//        personDTO.setId(id);
-//        PersonDTO returned = FACADE.updatePerson(personDTO);
-////        PersonDTO returned = FACADE.updatePerson(personDTO, id);
-//        return Response.ok().entity(GSON.toJson(returned)).build();
 //    }
+
+
+
 //    @Path("/user/{id}")
 //    @GET
 //    @Produces({MediaType.APPLICATION_JSON})
